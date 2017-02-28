@@ -69,7 +69,7 @@ class ContinuationMeasurementAddonUI extends ComponentAddonUIAdapter<Continuatio
 					Component encapsulatedComponent;
 					try 
 					{
-						encapsulatedComponent =getEncapsulatedMeasurementUI(configuration, encapsulatedMeasurement); 
+						encapsulatedComponent = getEncapsulatedMeasurementUI(configuration, encapsulatedMeasurement);
 						
 					} catch (AddonException | ConfigurationException e) {
 						getClient().sendError("Could not load user interface of original measurement.", e);

@@ -22,7 +22,13 @@
 	<property name="ys.meta_inf" value="META-INF" />
 	<property name="ys.manifest" value="${ys.meta_inf}/MANIFEST.MF" />
 	<property name="ys.dist" value="${env.YOUSCOPE_DIST_DIR}"/>
-	
+
+	<echo>'YOUSCOPE_DIST_DIR is ${ys.dist}...</echo>
+	<script language="javascript">
+		project.setProperty('basedir', project.getProperty('basedir'));
+	</script>
+	<echo>'basedir is ${basedir}...</echo>
+
 	<script language="javascript">
 		s = project.getProperty('basedir');
 		lastIdx1 = s.lastIndexOf('/');
@@ -34,7 +40,9 @@
 		project.setProperty('project', s.substring(lastIdx+1));
 	</script>
 
-    <target name="autocompile" depends="-autocompile.init, -buildMainJar, -buildClientJar, -buildServerJar, -buildSharedJar, -buildPluginJar, -buildMatlabJar">
+	<echo>'project is ${project}...</echo>
+
+	<target name="autocompile" depends="-autocompile.init, -buildMainJar, -buildClientJar, -buildServerJar, -buildSharedJar, -buildPluginJar, -buildMatlabJar">
         <!-- Calls appropriate target based on -autocompile.init results by depends mechanism. -->
     </target>
 	<target name="-autocompile.init">
