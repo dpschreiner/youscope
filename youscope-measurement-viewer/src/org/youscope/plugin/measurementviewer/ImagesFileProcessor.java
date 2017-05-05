@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2017 Moritz Lang.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * 
+ * Contributors:
+ *     Moritz Lang - initial API and implementation
+ ******************************************************************************/
 /**
  * 
  */
@@ -8,6 +18,7 @@ import java.io.FileReader;
 import java.io.LineNumberReader;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
 
 /**
  * Helper class to parse the images.csv file present in every measurement folder and return a tree representing the wells, positions and imaging jobs.
@@ -79,22 +90,26 @@ class ImagesFileProcessor
 		            	imageFolders.put(imageFolderID, imageFolder);
 		            } 
 		            
+		            // get file name
+		            String fileName = tokens[6];
+		            // replace backslashes and slashes by the native path separators. We don't care on which OS the images.csv file was generated on if we only want to interpret it...
+		            fileName = fileName.replaceAll("[\\\\/]", Matcher.quoteReplacement(File.separator));  
+		            
 		            // Add image
-		            String[] evalStrings = tokens[0].split(".");
-		            int[] evals = new int[evalStrings.length];
+		            String[] evalStrings = tokens[0].split("\\.");
+		            long[] evals = new long[evalStrings.length];
 		            for(int k=0; k<evals.length; k++)
 		            {
 		            	try
 		            	{
-		            		evals[k] = Integer.parseInt(evalStrings[k]);
+		            		evals[k] = Long.parseLong(evalStrings[k]);
 		            	}
 		            	catch(NumberFormatException e)
 		            	{
 		            		throw new Exception("String identifying evaluation number ("+tokens[0]+") must contain integers separated by a dot.", e);
 		            	}
 		            }
-		            
-		            imageFolder.add(tokens[6], evals);
+		            imageFolder.add(fileName, new ImageNumber(evals));
 		        }
 			}
 			catch(Exception e)
