@@ -1373,7 +1373,8 @@ class CameraDeviceImpl extends DeviceImpl implements CameraDeviceInternal
 			
 			try
 			{
-				core.setCameraDevice(getDeviceID());
+				// david: commented this to work with new MM driver which otherwise causes a severe error when continuous imaging stops
+				//core.setCameraDevice(getDeviceID());
 				core.stopSequenceAcquisition();
 				//core.stopSequenceAcquisition(getDeviceID());
 			}
